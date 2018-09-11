@@ -10,6 +10,22 @@ namespace devrant_cli
         private static RantProducer producer = new RantProducer();
         static async Task Main(string[] args)
         {
+            foreach(var arg in args) {
+                var tuple = arg.Split("=");
+                if (tuple[0] == "--sort")
+                    switch(tuple[1]) {
+                        case "algo":
+                            producer.SortType = Sort.Algo;
+                            break;
+                        case "recent":
+                            producer.SortType = Sort.Recent;
+                            break;
+                        case "top":
+                            producer.SortType = Sort.Top;
+                            break;
+                    }
+            }
+
             while(true) {
                 var rant = await producer.GetNextRantAsync();
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
